@@ -7,7 +7,6 @@ export class Modal extends Component {
   componentDidMount() {
     window.addEventListener('keydown', e => {
       if (e.code === 'Escape') {
-        console.log(this.props.onClose());
         this.props.onClose(); //вызываю через пропс onClose и выдаёт undefined.
 
         console.log('нажал escape');
@@ -19,7 +18,7 @@ export class Modal extends Component {
   render() {
     return createPortal(
       <div className="overlay">
-        <div className="modal">{this.props.childrem}</div>
+        <div className="modal">{this.props.children}</div>
       </div>,
       madalRoot,
     );
