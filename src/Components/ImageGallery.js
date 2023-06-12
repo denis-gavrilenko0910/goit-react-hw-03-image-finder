@@ -1,17 +1,17 @@
 import PropTypes from 'prop-types';
 import { ImageGalleryItems } from './ImageGalleryItem';
+import { nanoid } from 'nanoid';
 
 export const ImageGallery = ({ images, onClick }) => {
   return (
     <ul className="imageGallery">
-      {images?.map(({ id, webformatURL, largeImageURL, tags }) => {
-        console.log(id);
+      {images?.map(image => {
         return (
           <ImageGalleryItems
-            key={id}
-            webformatURL={webformatURL}
-            largeImageURL={largeImageURL}
-            tags={tags}
+            key={nanoid()}
+            webformatURL={image.webformatURL}
+            largeImageURL={image.largeImageURL}
+            tags={image.tags}
             onClick={onClick}
           />
         );

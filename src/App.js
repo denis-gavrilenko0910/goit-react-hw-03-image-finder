@@ -1,5 +1,5 @@
 import { Component } from 'react';
-import { fetchPixabyImages } from './Service/pix_api';
+import { fetchPixabayImages } from './Service/pix_api';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Modal } from './Components/Modal';
@@ -22,11 +22,8 @@ class App extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     if (prevState.inputQuery !== this.state.inputQuery) {
-      this.setState(prevState => ({
-        images: [],
-        currentPage: 1,
-      }));
       this.fetchImages();
+      // this.loadMoreImgs();
     }
   }
 
@@ -38,7 +35,7 @@ class App extends Component {
     this.setState({
       inputQuery: searchImg,
       currentPage: 1,
-      articles: [],
+      images: [],
       error: null,
     });
   };
@@ -47,14 +44,13 @@ class App extends Component {
     this.setState(() => ({
       isLoading: true,
     }));
-    fetchPixabyImages(this.state.inputQuery, this.state.currentPage)
+    fetchPixabayImages(this.state.inputQuery, this.state.currentPage)
       .then(data => {
         if (data.length === 0) {
           return toast('something went wrong');
         }
         this.setState(prevState => ({
           images: [...prevState.images, ...data],
-          currentPage: prevState.currentPage + 1,
         }));
         if (this.state.currentPage > 2) {
           window.scrollTo({
@@ -85,6 +81,12 @@ class App extends Component {
       tags: tags,
     });
     this.onToggleModal();
+  };
+
+  loadMoreImages = () => {
+    this.setState(prevState => ({
+      currentPage: prevState.currentPage + 1,
+    }));
   };
 
   render() {

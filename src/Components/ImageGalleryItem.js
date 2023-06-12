@@ -1,14 +1,14 @@
+import { nanoid } from 'nanoid';
 import PropTypes from 'prop-types';
 
 export const ImageGalleryItems = ({
-  id,
   webformatURL,
   largeImageURL,
   tags,
   onClick,
 }) => {
   return (
-    <li className="imageGalleryItem" key={id}>
+    <li className="imageGalleryItem" key={nanoid()}>
       <img
         src={webformatURL}
         alt={tags}
@@ -19,7 +19,6 @@ export const ImageGalleryItems = ({
   );
 };
 ImageGalleryItems.propTypes = {
-  id: PropTypes.string.isRequired,
   webformatURL: PropTypes.string.isRequired,
   largeImageURL: PropTypes.string.isRequired,
   tags: PropTypes.string.isRequired,
