@@ -23,7 +23,7 @@ class App extends Component {
   componentDidUpdate(prevProps, prevState) {
     if (prevState.inputQuery !== this.state.inputQuery) {
       this.fetchImages();
-      // this.loadMoreImgs();
+      this.loadMoreImgs();
     }
   }
 

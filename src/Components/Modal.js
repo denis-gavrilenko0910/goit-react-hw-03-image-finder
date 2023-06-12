@@ -5,12 +5,12 @@ const madalRoot = document.getElementById('modal_root');
 
 export class Modal extends Component {
   componentDidMount() {
-    window.addEventListener('keydown', this.esc);
+    window.addEventListener('keydown', this.onEscape);
   }
   componentWillUnmount() {
-    window.removeEventListener('keydown', this.esc);
+    window.removeEventListener('keydown', this.onEscape);
   }
-  esc = e => {
+  onEscape = e => {
     if (e.code === 'Escape') {
       this.props.onClose();
     }
