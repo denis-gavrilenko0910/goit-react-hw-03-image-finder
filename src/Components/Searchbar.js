@@ -1,21 +1,24 @@
 import { Component } from 'react';
+// import { toast } from 'react-toastify';
 
 export class Searchbar extends Component {
   state = {
-    search: '',
+    searchImg: '',
   };
 
   handleChange = e => {
-    this.setState({ search: e.currentTarget.value.toLowerCase() });
+    this.setState({ searchImg: e.currentTarget.value.toLowerCase() });
   };
 
   handleSubmit = e => {
     e.preventDefault();
     this.setState({ ...this.state });
-    this.setState({ search: '' });
+    this.props.onSubmit({ ...this.state });
+    this.setState({ searchImg: '' });
   };
 
   render() {
+    const { searchImg } = this.state;
     return (
       <header className="searchbar">
         <form onSubmit={this.handleSubmit} className="searchForm">
@@ -27,6 +30,7 @@ export class Searchbar extends Component {
             className="searchForm_input"
             name="search"
             type="text"
+            value={searchImg}
             autoComplete="off"
             autoFocus
             placeholder="Search images and photos"
