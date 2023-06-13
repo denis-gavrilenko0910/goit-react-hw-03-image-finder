@@ -2,11 +2,11 @@ import { Component } from 'react';
 import { fetchPixabayImages } from './Service/pix_api';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { Modal } from './Components/Modal';
-import { Searchbar } from './Components/Searchbar';
-import { Button } from './Components/Button';
-import { ImageGallery } from './Components/ImageGallery';
-import { Loader } from './Components/Loader';
+import { Modal } from './components/Modal';
+import { Searchbar } from './components/Searchbar';
+import { Button } from './components/Button';
+import { ImageGallery } from './components/ImageGallery';
+import { Loader } from './components/Loader';
 
 class App extends Component {
   state = {
@@ -18,6 +18,7 @@ class App extends Component {
     inputQuery: '',
     isLoading: false,
     error: null,
+    loadMore: false,
   };
 
   componentDidUpdate(prevProps, prevState) {
@@ -53,8 +54,14 @@ class App extends Component {
           return toast('something went wrong');
         }
         this.setState(prevState => ({
-          images: [...prevState.images, ...data],
+          images: [...prevState.images, ...data.hits],
+          loadMore: this.state.page < Math.ceil(data.totalHits / 12),
         }));
+        if (data.hits.length > 0) {
+          this.setState(() => ({
+            loadMore: true,
+          }));
+        }
         if (this.state.currentPage > 2) {
           window.scrollTo({
             top: document.documentElement.scrollHeight,
@@ -93,7 +100,9 @@ class App extends Component {
   };
 
   render() {
-    const { showModal, images, isLoading, largeImageURL, tags } = this.state;
+    const { showModal, images, loadMore, isLoading, largeImageURL, tags } =
+      this.state;
+    const showLoadMoreBtn = loadMore;
     return (
       <div className="App">
         <Searchbar onSubmit={this.handleSearchSubmit} />
@@ -104,11 +113,13 @@ class App extends Component {
           </Modal>
         )}
         <ImageGallery images={images} onClick={this.onModal} />
-        {images.length > 0 && (
+        {showLoadMoreBtn && (
           <Button
             className="button"
             type="button"
+            disabled={this.state.loadMore}
             btnName="Load more"
+            buttonVisibility={this.state.loadMore}
             onClick={this.loadMoreImages}
           />
         )}
