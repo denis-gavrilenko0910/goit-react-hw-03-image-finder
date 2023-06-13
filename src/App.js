@@ -21,8 +21,11 @@ class App extends Component {
   };
 
   componentDidUpdate(prevProps, prevState) {
-    if (prevState.inputQuery !== this.state.inputQuery) {
-      this.loadMoreImages();
+    const { inputQuery, currentPage } = this.state;
+    if (
+      prevState.inputQuery !== inputQuery ||
+      prevState.currentPage !== currentPage
+    ) {
       this.fetchImages();
     }
   }
@@ -106,7 +109,7 @@ class App extends Component {
             className="button"
             type="button"
             btnName="Load more"
-            onClick={this.fetchImages}
+            onClick={this.loadMoreImages}
           />
         )}
         <ToastContainer autoClose={2000} />
