@@ -45,19 +45,20 @@ class App extends Component {
   };
 
   fetchImages = () => {
+    const { inputQuery, currentPage } = this.state;
     this.setState(() => ({
       isLoading: true,
     }));
-    fetchPixabayImages(this.state.inputQuery, this.state.currentPage)
+    fetchPixabayImages(inputQuery, currentPage)
       .then(data => {
-        if (data.length === 0) {
+        if (data.hits.length === 0) {
           return toast('something went wrong');
         }
         this.setState(prevState => ({
           images: [...prevState.images, ...data.hits],
-          loadMore: this.state.currentPage < Math.ceil(data.totalHits / 12),
+          loadMore: currentPage < Math.ceil(data.totalHits / 12),
         }));
-        if (this.state.currentPage > 2) {
+        if (currentPage > 2) {
           window.scrollTo({
             top: document.documentElement.scrollHeight,
             behavior: 'smooth',
@@ -104,7 +105,7 @@ class App extends Component {
         {isLoading && <Loader />}
         {showModal && (
           <Modal onClose={this.onToggleModal}>
-            <img src={largeImageURL} alt={tags} />
+            <img className="modal" src={largeImageURL} alt={tags} />
           </Modal>
         )}
         <ImageGallery images={images} onClick={this.onModal} />
