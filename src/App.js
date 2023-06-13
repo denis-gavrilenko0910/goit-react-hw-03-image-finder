@@ -55,13 +55,8 @@ class App extends Component {
         }
         this.setState(prevState => ({
           images: [...prevState.images, ...data.hits],
-          loadMore: this.state.page < Math.ceil(data.totalHits / 12),
+          loadMore: this.state.currentPage < Math.ceil(data.totalHits / 12),
         }));
-        if (data.hits.length > 0) {
-          this.setState(() => ({
-            loadMore: true,
-          }));
-        }
         if (this.state.currentPage > 2) {
           window.scrollTo({
             top: document.documentElement.scrollHeight,
